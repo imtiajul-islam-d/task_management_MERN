@@ -4,41 +4,41 @@ import { FcGoogle } from "react-icons/fc";
 import { connect } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-const Signin = ({authentication}) => {
-  const [error, setError] = useState('')
-  const navigate = useNavigate()
-  const {googleLogin, emailLogin} = authentication;
+const Signin = ({ authentication }) => {
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { googleLogin, emailLogin } = authentication;
   // google login
   const handleGoogleLogin = () => {
-    setError('')
+    setError("");
     googleLogin()
-    .then(result => {
-      if(result.user.uid){
-        toast.success('Login Successful')
-        navigate('/')
-      }
-    })
-    .catch(err => {
-      setError(err.message)
-    })
-  }
+      .then((result) => {
+        if (result.user.uid) {
+          toast.success("Login Successful");
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  };
   // email sign-in
   const handleEmailLogin = (e) => {
-    e.preventDefault()
-    setError('')
+    e.preventDefault();
+    setError("");
     const email = e.target.email.value;
     const password = e.target.password.value;
     emailLogin(email, password)
-    .then(result => {
-      if(result.user.uid){
-        toast.success('Login Successful')
-        navigate('/')
-      }
-    })
-    .catch(err => {
-      setError(err.message)
-    })
-  }
+      .then((result) => {
+        if (result.user.uid) {
+          toast.success("Login Successful");
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  };
   return (
     <section className="min-h-[80vh] flex justify-center items-center px-3">
       <div className="border py-5 px-6 h-fit container max-w-lg  md:mt-0">
@@ -73,12 +73,13 @@ const Signin = ({authentication}) => {
           />
         </form>
         <div className="mb-2">
-          New to this site? <Link to='/signup' className="text-blue-700">Create an account</Link>
+          New to this site?{" "}
+          <Link to="/signup" className="text-blue-700">
+            Create an account
+          </Link>
         </div>
         {/* */}
-        {
-          error && <p className="text-red-700">{error}</p>
-        }
+        {error && <p className="text-red-700">{error}</p>}
         <div className="flex text-center justify-center">
           <span onClick={handleGoogleLogin} className="text-2xl cursor-pointer">
             <FcGoogle></FcGoogle>
@@ -90,10 +91,9 @@ const Signin = ({authentication}) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
-     authentication : state.auth.authentication
-  }
-}
+    authentication: state.auth.authentication,
+  };
+};
 
-export default connect(mapStateToProps) (Signin);
+export default connect(mapStateToProps)(Signin);

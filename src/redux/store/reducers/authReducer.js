@@ -34,10 +34,10 @@ const emailLogin = (email, password) => {
 };
 // logout starting
 const logOut = () => {
-//   localStorage.removeItem("");
+  //   localStorage.removeItem("");
   return signOut(auth);
 };
-// 
+//
 
 // firebase
 
@@ -47,7 +47,7 @@ const initState = {
     updateUser: updateUser,
     googleLogin: googleLogin,
     emailLogin: emailLogin,
-    logOut: logOut
+    logOut: logOut,
   },
 };
 const authReducer = (state = initState, action) => {
