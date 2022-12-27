@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "./../../../assets/logo/logoNote.png";
-// 
+//
 import { connect } from "react-redux";
-// 
+//
 // drawer
 import { Drawer } from "antd";
+import { AuthContext } from "../../../Authentication/AuthProvider";
+import { toast } from "react-hot-toast";
 // drawer
 
-const Nav = ({authentication}) => {
-    console.log(authentication.login);
+const Nav = ({ authentication }) => {
+  const { logOut } = authentication;
+  // context api
+  const {user} = useContext(AuthContext);
+  console.log(user);
+  // context api
   // drawer start
   const [open, setOpen] = useState(false);
   const showDrawer = () => {
@@ -19,6 +25,14 @@ const Nav = ({authentication}) => {
     setOpen(false);
   };
   // drawer end
+
+  //handle logout
+  const handleLogout = () => {
+    logOut().then((result) => {
+      toast.success("Logout successful");
+    });
+  };
+
   const menuItemsLeft = (
     <React.Fragment>
       <li className="flex">
@@ -50,13 +64,25 @@ const Nav = ({authentication}) => {
         </Link>
       </li>
       {/*  */}
-      <li className="flex">
-        <Link
-          className="flex items-center px-4 -mb-1 dark:border-transparent"
-        >
-          Logout
-        </Link>
-      </li>
+      {user ? (
+        <li className="flex">
+          <Link
+            onClick={handleLogout}
+            className="flex items-center px-4 -mb-1 dark:border-transparent"
+          >
+            Logout
+          </Link>
+        </li>
+      ) : (
+        <li className="flex">
+          <Link
+            to="/login"
+            className="flex items-center px-4 -mb-1 dark:border-transparent"
+          >
+            Login
+          </Link>
+        </li>
+      )}
     </React.Fragment>
   );
   return (
@@ -122,10 +148,10 @@ const Nav = ({authentication}) => {
 };
 
 const mapStateToProps = (state) => {
-    console.log(state)
-    return {
-       authentication : state.auth.authentication
-    }
-}
+  console.log(state);
+  return {
+    authentication: state.auth.authentication,
+  };
+};
 
-export default connect(mapStateToProps) (Nav);
+export default connect(mapStateToProps)(Nav);
