@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
+import { AuthContext } from "./../../Authentication/AuthProvider";
 
 const Addtask = () => {
+  const { user } = useContext(AuthContext);
   const [img, setImage] = useState("");
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    // set loader
+    setLoading(true)
+    // get form data
+    const form = e.target;
+    const title = form.title.value;
+    const details = form.details.value;
+    // get form data end
     // upload image
     const Formdata = new FormData();
     Formdata.append("file", img);
-    console.log(Formdata);
     Formdata.append("upload_preset", "todoapp");
     Formdata.append("cloud_name", "dueuqmxmd");
     fetch("https://api.cloudinary.com/v1_1/dueuqmxmd/image/upload", {
@@ -17,17 +29,43 @@ const Addtask = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.url);
-        if(data.url){
-            setImage('')
-        }
+        setImage("");
+        //   // declaring and object to post on database as a task
+        const task = {
+          email: user.email,
+          title: title,
+          image: data.url,
+          details: details,
+        };
+        // 
+        fetch("http://localhost:5000/task", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(task),
+        })
+          .then((result) => {
+            toast.success("Task added successfully!");
+            form.reset()
+            setLoading(false)
+            navigate("/mytask");
+          })
+          .catch((err) => {
+            setLoading(false)
+            toast.error("Something went wrong! Please try again..");
+          });
       })
       .catch((err) => {
         if (err) {
+          setLoading(false)
           toast.error("Something went wrong! Please try again.");
         }
       });
   };
+  if(loading){
+    return <Loader></Loader>
+  }
   return (
     <section>
       <div>
