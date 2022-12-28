@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { connect } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Signin = ({ authentication }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  console.log(from)
   const { googleLogin, emailLogin } = authentication;
   // google login
   const handleGoogleLogin = () => {
@@ -15,7 +18,7 @@ const Signin = ({ authentication }) => {
       .then((result) => {
         if (result.user.uid) {
           toast.success("Login Successful");
-          navigate("/");
+          navigate(from, { replace: true })
         }
       })
       .catch((err) => {
@@ -31,8 +34,8 @@ const Signin = ({ authentication }) => {
     emailLogin(email, password)
       .then((result) => {
         if (result.user.uid) {
+          navigate(from, { replace: true });
           toast.success("Login Successful");
-          navigate("/");
         }
       })
       .catch((err) => {

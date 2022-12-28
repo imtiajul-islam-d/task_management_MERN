@@ -14,7 +14,6 @@ const Nav = ({ authentication }) => {
   const { logOut } = authentication;
   // context api
   const {user} = useContext(AuthContext);
-  console.log(user);
   // context api
   // drawer start
   const [open, setOpen] = useState(false);
@@ -86,7 +85,7 @@ const Nav = ({ authentication }) => {
     </React.Fragment>
   );
   return (
-    <div className="border-b border-gray-300 h-full backdrop-blur-lg">
+    <div className="shadow-sm h-full bg-white">
       {/* for large device */}
       <header className="w-full h-full dark:bg-gray-800 dark:text-gray-100">
         <div className="container flex justify-between h-full mx-auto md:justify-center md:space-x-8 relative">
@@ -148,7 +147,6 @@ const Nav = ({ authentication }) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     authentication: state.auth.authentication,
   };

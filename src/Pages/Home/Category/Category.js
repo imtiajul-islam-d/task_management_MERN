@@ -12,7 +12,9 @@ const Category = () => {
               <p className="mt-6 text-center text-3xl">My Tasks</p>
             </div>
             <div className="flex flex-col flex-1 p-6">
-              <Link className="bg-yellow-400 hover:bg-yellow-300 text-white hover:text-black p-4 flex items-center justify-center transition">
+              <Link
+                to='/mytask'
+               className="bg-yellow-400 hover:bg-yellow-300 text-white hover:text-black p-4 flex items-center justify-center transition">
                 <span className=" cursor-pointer text-xl">
                   <FaPlusCircle></FaPlusCircle>
                 </span>
@@ -25,7 +27,9 @@ const Category = () => {
               <p className="mt-6 text-center text-3xl">Add Tasks</p>
             </div>
             <div className="flex flex-col flex-1 p-6">
-              <Link className="bg-yellow-400 hover:bg-yellow-300 text-white hover:text-black p-4 flex items-center justify-center transition">
+              <Link
+                to='/addtask'
+               className="bg-yellow-400 hover:bg-yellow-300 text-white hover:text-black p-4 flex items-center justify-center transition">
                 <span className=" cursor-pointer text-xl">
                   <FaPlusCircle></FaPlusCircle>
                 </span>
@@ -38,7 +42,8 @@ const Category = () => {
               <p className="mt-6 text-center text-3xl">Completed Tasks</p>
             </div>
             <div className="flex flex-col flex-1 p-6">
-              <Link className="bg-yellow-400 hover:bg-yellow-300 text-white hover:text-black p-4 flex items-center justify-center transition">
+              <Link
+              to='/completedtask' className="bg-yellow-400 hover:bg-yellow-300 text-white hover:text-black p-4 flex items-center justify-center transition">
                 <span className=" cursor-pointer text-xl">
                   <FaPlusCircle></FaPlusCircle>
                 </span>

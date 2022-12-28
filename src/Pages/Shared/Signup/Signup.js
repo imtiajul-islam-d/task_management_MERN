@@ -12,14 +12,25 @@ const Signup = ({ authentication }) => {
     setError("");
     googleLogin()
       .then((result) => {
-        if (result.user.uid) {
-          toast.success("Login Successful");
-          navigate("/");
-        }
+        const user = result.user;
+        const name = user.displayName;
+        const email = user.email;
+        // check user
+        fetch(`http://localhost:5000/user/availability?email=${email}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.length) {
+              toast.success("Login successful");
+              navigate("/");
+            } else {
+              saveUser(name, email);
+            }
+          });
       })
       .catch((err) => {
         toast.error(err.message);
         setError(err.message);
+        signOut();
       });
   };
   const handleCreateUser = (e) => {
@@ -30,20 +41,46 @@ const Signup = ({ authentication }) => {
     const info = {
       displayName: e.target.name.value,
     };
-    createUserEmail(email, password).then((result) => {
-      if (result.user.uid) {
+    createUserEmail(email, password)
+      .then((result) => {
         updateUser(info)
-          .then((result) => {
-            toast.success("Successfully registered..");
-            navigate("/");
-          })
-          .catch((err) => {
-            setError(err.message);
-            toast.error(err.message);
-          });
-      }
-    });
+        .then((result) => {
+          const name = e.target.name.value;
+          const email = e.target.email.value;
+          navigate("/");
+          saveUser(name, email);
+        });
+      })
+      .catch((err) => {
+        setError(err.message);
+        toast.error(err.message);
+      });
   };
+
+  // save user to database
+  // save user info to the database
+  const saveUser = (name, email) => {
+    const user = {
+      name,
+      email,
+    };
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged === true) {
+          navigate("/");
+          toast.success("Successfully registered");
+        }
+      })
+      .catch((err) => setError(err.message));
+  };
+
   return (
     <section className="min-h-[80vh] flex justify-center items-center px-3">
       <div className="border py-5 px-6 h-fit container max-w-lg  md:mt-0">
