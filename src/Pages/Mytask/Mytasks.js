@@ -14,15 +14,14 @@ const Mytasks = () => {
     queryKey: ["tasks", user?.email],
     queryFn: () =>
       fetch(`http://localhost:5000/alltasks?email=${user?.email}`, {
-        headers: {
-          authorization: `bearer ${localStorage.getItem("furniture")}`,
-        },
+        // headers: {
+        //   authorization: `bearer ${localStorage.getItem("furniture")}`,
+        // },
       }).then((res) => res.json()),
   });
   if (isLoading) {
     return <Loader></Loader>;
   }
-  console.log(tasks);
   return (
     <section>
       <div className="flex items-center justify-center bg-yellow-400 text-black min-h-[25vh]">
