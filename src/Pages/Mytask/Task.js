@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { FcEditImage } from "react-icons/fc";
 import { toast } from "react-hot-toast";
 
-const Task = ({ item }) => {
+const Task = ({ item, refetch }) => {
   const deleteTask = (task) => {
     const confirm = window.confirm(`Want to delete ${task?.title}?`);
     if (!confirm) {
       return;
     }
-    fetch(`http://localhost:5000/task/${task._id}`, {
+    fetch(`https://todo-sage-iota.vercel.app/task/${task._id}`, {
       method: "DELETE",
       //   headers: {
       //     authorization: `bearer ${localStorage.getItem("furniture")}`,
@@ -19,6 +19,7 @@ const Task = ({ item }) => {
       .then((result) => {
         if (result.acknowledged) {
           toast.success("Task deleted successfully");
+          refetch()
         }
       });
   };
@@ -30,7 +31,7 @@ const Task = ({ item }) => {
     if (!confirm) {
       return;
     }
-    fetch(`http://localhost:5000/task/status?id=${id}`, {
+    fetch(`https://todo-sage-iota.vercel.app/task/status?id=${id}`, {
       method: "PATCH",
       // headers: {
       //   authorization: `bearer ${localStorage.getItem("furniture")}`,
@@ -40,6 +41,7 @@ const Task = ({ item }) => {
       .then((data) => {
         if (data.modifiedCount > 0) {
           toast.success("Task completed");
+          refetch()
         }
       });
   };
@@ -52,7 +54,7 @@ const Task = ({ item }) => {
     if (!value) {
       alert("Please add some title");
     } else {
-      fetch(`http://localhost:5000/task/details?id=${id}`, {
+      fetch(`https://todo-sage-iota.vercel.app/task/details?id=${id}`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
@@ -77,7 +79,7 @@ const Task = ({ item }) => {
     if (!value) {
       alert("Please add some title");
     } else {
-      fetch(`http://localhost:5000/task/title?id=${id}`, {
+      fetch(`https://todo-sage-iota.vercel.app/task/title?id=${id}`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",

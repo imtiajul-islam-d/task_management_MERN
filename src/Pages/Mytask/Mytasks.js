@@ -10,10 +10,11 @@ const Mytasks = () => {
   const {
     isLoading,
     data: tasks,
+    refetch
   } = useQuery({
     queryKey: ["tasks", user?.email],
     queryFn: () =>
-      fetch(`http://localhost:5000/alltasks?email=${user?.email}`, {
+      fetch(`https://todo-sage-iota.vercel.app/alltasks?email=${user?.email}`, {
         // headers: {
         //   authorization: `bearer ${localStorage.getItem("furniture")}`,
         // },
@@ -30,7 +31,7 @@ const Mytasks = () => {
       {tasks?.length && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mt-3 container mx-auto py-5 px-3 min-h-[63vh]">
           {tasks?.map((item, idx) => (
-            <Task key={item._id} item={item} idx={idx}></Task>
+            <Task key={item._id} item={item} idx={idx} refetch={refetch}></Task>
           ))}
         </div>
       )}

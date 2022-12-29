@@ -7,10 +7,10 @@ import CompletedTaskCard from "./CompletedTaskCard";
 
 const Completedtask = () => {
   const { user } = useContext(AuthContext);
-  const { isLoading, data: completedTasks } = useQuery({
+  const { isLoading, data: completedTasks, refetch } = useQuery({
     queryKey: ["completedTasks", user?.email],
     queryFn: () =>
-      fetch(`http://localhost:5000/completedtasks?email=${user?.email}`, {
+      fetch(`https://todo-sage-iota.vercel.app/completedtasks?email=${user?.email}`, {
         // headers: {
         //   authorization: `bearer ${localStorage.getItem("furniture")}`,
         // },
@@ -19,7 +19,6 @@ const Completedtask = () => {
   if (isLoading) {
     return <Loader></Loader>;
   }
-  console.log(completedTasks);
   return (
     <section>
       <div className="flex items-center justify-center bg-yellow-400 text-black min-h-[25vh]">
@@ -28,7 +27,7 @@ const Completedtask = () => {
       {completedTasks?.length && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mt-3 container mx-auto py-5 px-3 min-h-[63vh]">
           {completedTasks?.map((completedTask, idx) => (
-            <CompletedTaskCard key={idx} completedItem={completedTask}></CompletedTaskCard>
+            <CompletedTaskCard key={idx} completedItem={completedTask} refetch={refetch}></CompletedTaskCard>
           ))}
         </div>
       )}

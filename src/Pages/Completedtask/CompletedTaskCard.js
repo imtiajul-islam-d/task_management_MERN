@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 
 const { Panel } = Collapse;
 
-const CompletedTaskCard = ({ completedItem }) => {
+const CompletedTaskCard = ({ completedItem, refetch }) => {
   const deleteTask = (task) => {
     const confirm = window.confirm(`Want to delete ${task?.title}?`);
     if (!confirm) {
       return;
     }
-    fetch(`http://localhost:5000/task/${task._id}`, {
+    fetch(`https://todo-sage-iota.vercel.app/task/${task._id}`, {
       method: "DELETE",
       //   headers: {
       //     authorization: `bearer ${localStorage.getItem("furniture")}`,
@@ -22,6 +22,7 @@ const CompletedTaskCard = ({ completedItem }) => {
       .then((result) => {
         if (result.acknowledged) {
           toast.success("Task deleted successfully");
+          refetch()
         }
       });
   };
@@ -33,7 +34,7 @@ const CompletedTaskCard = ({ completedItem }) => {
     if (!confirm) {
       return;
     }
-    fetch(`http://localhost:5000/task/status/in?id=${id}`, {
+    fetch(`https://todo-sage-iota.vercel.app/task/status/in?id=${id}`, {
       method: "PATCH",
       // headers: {
       //   authorization: `bearer ${localStorage.getItem("furniture")}`,
@@ -43,6 +44,7 @@ const CompletedTaskCard = ({ completedItem }) => {
       .then((data) => {
         if (data.modifiedCount > 0) {
           toast.success("The task has been moved to incomplete section");
+          refetch()
         }
       });
   };
@@ -54,7 +56,7 @@ const CompletedTaskCard = ({ completedItem }) => {
     if (!value) {
       alert("Please add some comment");
     } else {
-      fetch(`http://localhost:5000/task/comment?id=${id}`, {
+      fetch(`https://todo-sage-iota.vercel.app/task/comment?id=${id}`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",

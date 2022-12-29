@@ -16,7 +16,7 @@ const Signup = ({ authentication }) => {
         const name = user.displayName;
         const email = user.email;
         // check user
-        fetch(`http://localhost:5000/user/availability?email=${email}`)
+        fetch(`https://todo-sage-iota.vercel.app/user/availability?email=${email}`)
           .then((res) => res.json())
           .then((data) => {
             if (data.length) {
@@ -64,7 +64,7 @@ const Signup = ({ authentication }) => {
       name,
       email,
     };
-    fetch("http://localhost:5000/users", {
+    fetch("https://todo-sage-iota.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
