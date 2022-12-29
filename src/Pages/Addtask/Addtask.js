@@ -33,7 +33,9 @@ const Addtask = () => {
         //   // declaring and object to post on database as a task
         const task = {
           email: user.email,
+          status: "pending",
           title: title,
+          imageName: data.original_filename,
           image: data.url,
           details: details,
         };
@@ -85,6 +87,7 @@ const Addtask = () => {
                   type="text"
                   name="title"
                   id="title"
+                  required
                 />
               </div>
               <div className="my-2">
