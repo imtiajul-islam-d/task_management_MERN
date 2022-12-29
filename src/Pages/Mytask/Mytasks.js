@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
-import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Authentication/AuthProvider";
 import Loader from "../../components/Loader";
@@ -11,7 +10,6 @@ const Mytasks = () => {
   const {
     isLoading,
     data: tasks,
-    refetch,
   } = useQuery({
     queryKey: ["tasks", user?.email],
     queryFn: () =>
